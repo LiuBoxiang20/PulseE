@@ -1,4 +1,4 @@
-function   [HR, freq, P1, f] = FFT_HR_Nfig(x, Fs)
+function   [HR, freq, P1, f] = fftHR(x, Fs)
 
 T = 1/Fs;            
 N = length(x);         

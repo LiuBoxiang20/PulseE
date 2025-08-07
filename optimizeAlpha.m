@@ -1,12 +1,19 @@
-function alpha = optimizeAlpha(data, Fs)
+function [imfOptimized, alpha] = optimizeAlpha(data, Fs, freq, P1)
 
-    ED = [];
     ALPHA = 5000:10000:25000; 
-    tol = 1e-7; tau = 0.001; 
-    [~, freq_s, P1] = fftHR(data, Fs); lenP1 = length(P1);
+    nA        = numel(ALPHA);
+    tol        = 1e-7; 
+    tau       = 0.001; 
+    lenP1   = length(P1);
 
-    for a = ALPHA
-        p = vme(data, a, freq_s, Fs, tau, tol);
+    ED   = zeros(1, nA);
+    imfs = zeros(nA, numel(data));
+
+    for k = 1:nA
+        a = ALPHA(k);
+
+        p = vme(data, a, freq, Fs, tau, tol);
+        imfs(k, :) = p;
         [~, ~, P2] = fftHR(p, Fs); 
     
         [~, locs] = findpeaks(-P1);
@@ -25,12 +32,12 @@ function alpha = optimizeAlpha(data, Fs)
 
         ni = nearest_indices(1):nearest_indices(2);
         out_index = [1:nearest_indices(1)-1 nearest_indices(2)+1:lenP1];
-        ed = sum((P1(ni)-P2(ni)).^2) + sum(P2(out_index).^2);
-        ED = [ED ed];
-
+        ED(k) = sum((P1(ni)-P2(ni)).^2) + sum(P2(out_index).^2);
+       
     end
 
     [~, lo] = min(ED);
     alpha = ALPHA(lo);
+    imfOptimized  = imfs(lo, :);
 
 end

@@ -3,30 +3,30 @@ clear; close all; clc;
 %% ==================== File Paths & Basic Parameters ======================
 % rppgDatafilePath: Path to a matrix file containing the raw rPPG signals obtained by performing frame-wise spatial averaging over each facial ROI.
 % If there are 3 ROIs, columns 1–3 hold the R/G/B channels for ROI 1, columns 4–6 for ROI 2, and columns 7–9 for ROI 3, and so on.
-rppgDatafilePath                = '  ';  
+rppgDatafilePath             = '  ';  
 % referenceNoiseFilePath: FilePath contains the green-channel data for two background ROIs linked to the facial landmarks
-referenceNoiseFilePath     =  '  ';  
-exp_num              = 1;     % Experiment number
-subj_num             = 1;      % Subject number
-initialFrame          = 1;      % Starting frame index
-Fs                        = 30;     % Sampling rate (frame rate) in Hz
+referenceNoiseFilePath  =  '  ';  
+exp_num                         = 1;            % Experiment number
+subj_num                        = 1;            % Subject number
+initialFrame                     = 1;            % Starting frame index
+Fs                                    = 30;          % Sampling rate (frame rate) in Hz
 
-convThr               = 0.5;    % VPS convergence threshold
-segmentIntervalSec = 5;  % Time interval between segments (seconds)
-l_l                        = 0.75;  % Lower bound of heart rate band (Hz)
-u_l                       = 2.5;    % Upper bound of heart rate band (Hz)
-countFrame         = -1;
-prevValidHRs      = [];       % Store previously validated HR values
-cycleIdx               = 0;       % Iteration index
-T1                        = 64.6;  %   [T1, T2] — High-probability interval for HR.
-T2                        = 93.6; 
-NyquistF              = Fs / 2; 
-isValidHR             = false; % Heart rate correction flag.
-SN                        = Fs*20; 
-l_f                         = round(l_l*SN / Fs) + 1; 
-u_f                        = round(u_l*SN / Fs) + 1; 
-bandIdx                = l_f : u_f;  % Index range for HR frequency band
-[B, A]                    = butter(4, [l_l/NyquistF, u_l/NyquistF]);  % 4th-order bandpass Butterworth filter
+convThr                           = 0.5;         % VPS convergence threshold
+segmentIntervalSec        = 5;            % Time interval between segments (seconds)
+l_l                                    = 0.75;       % Lower bound of heart rate band (Hz)
+u_l                                   = 2.5;         % Upper bound of heart rate band (Hz)
+countFrame                     = -1;
+prevValidHRs                  = [];            % Store previously validated HR values
+cycleIdx                           = 0;            % Iteration index
+T1                                    = 64.6;       % [T1, T2] — High-probability interval for HR.
+T2                                    = 93.6; 
+NyquistF                          = Fs / 2; 
+isValidHR                         = false;      % Heart rate correction flag.
+SN                                    = Fs*20; 
+l_f                                     = round(l_l*SN / Fs) + 1; 
+u_f                                    = round(u_l*SN / Fs) + 1; 
+bandIdx                            = l_f : u_f;  % Index range for HR frequency band
+[B, A]                                = butter(4, [l_l/NyquistF, u_l/NyquistF]);  % 4th-order bandpass Butterworth filter
 
 if isempty(gcp('nocreate'))
     parpool('local');  

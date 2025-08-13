@@ -1,1 +1,1 @@
-Run main.m to perform heart rate estimation.
+Please run main.m to perform heart rate estimation.

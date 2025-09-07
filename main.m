@@ -1,10 +1,7 @@
 clear; close all; clc; 
 
 %% ==================== File Paths & Basic Parameters ======================
-% rppgDatafilePath: Path to a matrix file containing the raw rPPG signals obtained by performing frame-wise spatial averaging over each facial ROI.
-% If there are 3 ROIs, columns 1–3 hold the R/G/B channels for ROI 1, columns 4–6 for ROI 2, and columns 7–9 for ROI 3, and so on.
 rppgDatafilePath             = '  ';  
-% referenceNoiseFilePath: FilePath contains the green-channel data for two background ROIs linked to the facial landmarks
 referenceNoiseFilePath  =  '  ';  
 exp_num                         = 1;            % Experiment number
 subj_num                        = 1;            % Subject number

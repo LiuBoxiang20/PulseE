@@ -1,20 +1,5 @@
 function rppgRawData = rppgDataLoader(filePath, frameRange, Fs)
 
-%{
-Inputs:
-  filePath          — Path to a matrix file containing the raw rPPG signals obtained by 
-                             performing frame-wise spatial averaging over each facial ROI. 
-                             If there are 3 ROIs, columns 1–3 hold the R/G/B channels for ROI 1, 
-                             columns 4–6 for ROI 2, and columns 7–9 for ROI 3, and so on.
-  frameRange  — Vector of frame indices to retain (row numbers).
-  Fs                  — Frame rate in Hz.
-
-Output:
-  rppgRawData — 2×M matrix, where
-                              row 1 is the raw rPPG signal extracted by CHROM,
-                              row 2 is the raw rPPG signal extracted by POS.
-%}
-
     rppgSignals = readmatrix(filePath); 
     rppgSignals = rppgSignals(frameRange, :);
    
